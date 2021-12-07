@@ -1,95 +1,84 @@
 <?php
 $explodedTextFile = explode(PHP_EOL, file_get_contents('Assignment_0301_input'));
-$oxygenArray = $explodedTextFile;
-$co2Array = $explodedTextFile;
-$i = 0;
-
-// oxygen
-while (count($oxygenArray) != 1) {
+for ($i = 0; $i < strlen($explodedTextFile[0]); $i++) {
     $gammaCounter = 0;
-    foreach ($oxygenArray as $binNumber) {
-        $cutoffpoint = strlen($oxygenArray[0]) - 1 - $i;
-        if (substr($binNumber, $i, -$cutoffpoint) == 1) {
+    $arrayKey = [];
+    foreach ($explodedTextFile as $binNumber) {
+        if (substr($binNumber, $i, 1) == 1) {
             $gammaCounter += 1;
         } else {
             $gammaCounter -= 1;
         }
     }
-    $g = 0;
-    $arrayKeys[0] = 0;
-
     if ($gammaCounter >= 0) {
-        foreach ($oxygenArray as $binNumber) {
-            $cutoffpoint = strlen($oxygenArray[0]) - 1 - $i;
-            if (substr($binNumber, $i, -$cutoffpoint) == 1) {
-                continue;
-            } else {
-                $arrayKeys[count($arrayKeys) - 1] = $g;
+        for ($j = 0; $j < count($explodedTextFile); $j++) {
+            if (substr($explodedTextFile[$j], $i, 1) == 0) {
+                // code die $explodedTextFile[$j] key opslaat
+                $arrayKey[count($arrayKey)] = $j;
             }
-            $g++;
         }
     } else {
-        foreach ($oxygenArray as $binNumber) {
-            $cutoffpoint = strlen($oxygenArray[0]) - 1 - $i;
-            if (substr($binNumber, $i, -$cutoffpoint) == 0) {
-                continue;
-            } else {
-                $arrayKeys[count($arrayKeys) - 1] = $g;
+        for ($j = 0; $j < count($explodedTextFile); $j++) {
+            if (substr($explodedTextFile[$j], $i, 1) == 1) {
+                // code die $explodedTextFile[$j] key opslaat
+                $arrayKey[count($arrayKey)] = $j;
             }
-            $g++;
         }
     }
 
-    foreach ($arrayKeys as $key) {
-        unset($oxygenArray[$key]);
+    foreach ($arrayKey as $key){
+        unset($explodedTextFile[$key]);
     }
-    $oxygenArray = array_values($oxygenArray);
-    $i++;
-}
-//echo $oxygenArray[0];
+    // code die array opnieuw indexeerd
+    $explodedTextFile = array_values($explodedTextFile);
 
-//CO2
-while (count($co2Array) != 1) {
+    if (count($explodedTextFile) <= 1) {
+        break;
+    }
+}
+
+echo "eerste waarde = " . $explodedTextFile[0] . '<br>';
+$firstValue = $explodedTextFile[0];
+
+///////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////
+
+$explodedTextFile = explode(PHP_EOL, file_get_contents('Assignment_0301_input'));
+for ($i = 0; $i < strlen($explodedTextFile[0]); $i++) {
     $gammaCounter = 0;
-    foreach ($co2Array as $binNumber) {
-        $cutoffpoint = strlen($co2Array[0]) - 1 - $i;
-        if (substr($binNumber, $i, -$cutoffpoint) == 1) {
+    $arrayKey = [];
+    foreach ($explodedTextFile as $binNumber) {
+        if (substr($binNumber, $i, 1) == 1) {
             $gammaCounter += 1;
         } else {
             $gammaCounter -= 1;
         }
     }
-    $g = 0;
-    $arrayKeys[0] = 0;
-
-    if ($gammaCounter > 0) {
-        foreach ($co2Array as $binNumber) {
-            $cutoffpoint = strlen($co2Array[0]) - 1 - $i;
-            if (substr($binNumber, $i, -$cutoffpoint) == 0) {
-                continue;
-            } else {
-                $arrayKeys[count($arrayKeys) - 1] = $g;
+    if ($gammaCounter >= 0) {
+        for ($j = 0; $j < count($explodedTextFile); $j++) {
+            if (substr($explodedTextFile[$j], $i, 1) == 1) {
+                // code die $explodedTextFile[$j] key opslaat
+                $arrayKey[count($arrayKey)] = $j;
             }
-            $g++;
         }
     } else {
-        foreach ($co2Array as $binNumber) {
-            $cutoffpoint = strlen($co2Array[0]) - 1 - $i;
-            if (substr($binNumber, $i, -$cutoffpoint) == 1) {
-                continue;
-            } else {
-                $arrayKeys[count($arrayKeys) - 1] = $g;
+        for ($j = 0; $j < count($explodedTextFile); $j++) {
+            if (substr($explodedTextFile[$j], $i, 1) == 0) {
+                // code die $explodedTextFile[$j] key opslaat
+                $arrayKey[count($arrayKey)] = $j;
             }
-            $g++;
         }
     }
 
-    foreach ($arrayKeys as $key) {
-        unset($co2Array[$key]);
+    foreach ($arrayKey as $key){
+        unset($explodedTextFile[$key]);
     }
-    $co2Array = array_values($co2Array);
-    $i++;
+    // code die array opnieuw indexeerd
+    $explodedTextFile = array_values($explodedTextFile);
+    if (count($explodedTextFile) <= 1) {
+        break;
+    }
 }
-echo $oxygenArray[0] . '<br>';
-echo $co2Array[0] . '<br>';
-echo bindec($oxygenArray[0]) * bindec($co2Array[0]);
+$secondValue = $explodedTextFile[0];
+echo "tweede waarde = " . $secondValue . '<br>';
+echo bindec($secondValue) * bindec($firstValue);
