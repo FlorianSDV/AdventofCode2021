@@ -1,5 +1,6 @@
 <?php
-function writeTable($array)
+
+function writeTable($array) // een functie die een array mooi weergeeft
 {
 
     echo '<pre>';
@@ -19,61 +20,50 @@ for ($i = 0; $i < count($firstImport); $i++) {
 
     }
 }
-//writeTable($firstImport);
-$stopRunning = false;
-foreach ($drawnNumbers as $comparisonNumber) {
-    for ($i = 0; $i < count($firstImport); $i++) {
-        for ($g = 0; $g < count((array)$firstImport[$i]); $g++) {
-            for ($j = 0; $j < count($firstImport[$i][$g]); $j++) {
-                if ($firstImport[$i][$g][$j] == $comparisonNumber) {
+$youmustBreak = false;
+$product = null;
+$countFirstimport = count($firstImport);
+foreach ($drawnNumbers as $comparisonNumber) { // elk nummer dat uit de "zak" wordt getrokken gaan we vergelijken.
+    for ($i = 0; $i < $countFirstimport; $i++) { // met deze loop gaan we elk bingo vel af.
+        for ($g = 0; $g < 5; $g++) { // met deze loop gaan we elke rij in het bingo vel af.
+            for ($j = 0; $j < 5; $j++) { // met deze loop gaan we elk getal in een rij af.
+                if ($firstImport[$i][$g][$j] == $comparisonNumber) { // als het gekozen getal gelijk is aan het getrokken getal zetten we deze op leeg.
                     $firstImport[$i][$g][$j] = "";
                 }
+                // als alle getallen in een rij 0 zijn heb je bingo
                 if (array_sum($firstImport[$i][$g]) == 0) {
-                    if (count($firstImport) > 1) {
-                        ($firstImport[$i]; // geen unset maar waarde toekennen.  nieuwe if bedenken. misschien tellertje vergelijken met array count?
-                    } else {
-                    echo count($firstImport) . '<br>';
-
-                        $product = array_sum($firstImport[$i][0]) +
+                    $arrayKey = $i; // de array key geven we mee zodat we deze kunnen verwijderen.
+                    $youmustBreak = true; // zodra we bingo hebben moeten we weg uit dit bingo vel.
+                    $product = array_sum($firstImport[$i][0]) +
                         array_sum($firstImport[$i][1]) +
                         array_sum($firstImport[$i][2]) +
                         array_sum($firstImport[$i][3]) +
                         array_sum($firstImport[$i][4]);
-                    $product = $product * $comparisonNumber;
-                    echo $product . '<br>';
-                    $stopRunning = True;
+                    $product = $product * $comparisonNumber; // de waarde waar we naar op zoek zijn.
                 }
-                }
+                // als alle getallen in een kolom 0 zijn heb je bingo
                 if ($firstImport[$i][0][$j] == "" && $firstImport[$i][1][$j] == "" && $firstImport[$i][2][$j] == "" && $firstImport[$i][3][$j] == "" && $firstImport[$i][4][$j] == "") {
-                    if (count($firstImport) > 1) {
-                        unset($firstImport[$i]);
-                    } else {
-                        echo count($firstImport) . '<br>';
-
-                        $product = array_sum($firstImport[$i][0]) +
-                            array_sum($firstImport[$i][1]) +
-                            array_sum($firstImport[$i][2]) +
-                            array_sum($firstImport[$i][3]) +
-                            array_sum($firstImport[$i][4]);
-                        $product = $product * $comparisonNumber;
-                        echo $product . '<br>';
-                        $stopRunning = True;
-                    }
-                }
-
-                if ($stopRunning == true) {
-                    break;
+                    $arrayKey = $i; // de array key geven we mee zodat we deze kunnen verwijderen.
+                    $youmustBreak = true; // zodra we bingo hebben moeten we weg uit dit bingo vel.
+                    $product = array_sum($firstImport[$i][0]) +
+                        array_sum($firstImport[$i][1]) +
+                        array_sum($firstImport[$i][2]) +
+                        array_sum($firstImport[$i][3]) +
+                        array_sum($firstImport[$i][4]);
+                    $product = $product * $comparisonNumber; // de waarde waar we naar op zoek zijn.
                 }
             }
-            if ($stopRunning == true) {
+            if ($youmustBreak) { // als we bingo hebben moeten we uit deze loop breken. anders blijven we zoeken in een bingo vel dat niet meer bestaat.
+                unset($firstImport[$arrayKey]);
+                $youmustBreak = false;
                 break;
             }
         }
-        if ($stopRunning == true) {
-            break;
-        }
     }
-    if ($stopRunning == true) {
+    $firstImport = array_values($firstImport); // de array moet opnieuw geïndexeerd worden omdat er "gaten" zijn.
+    $countFirstimport = count($firstImport); // na indexatie is de grootte van de array verandert.
+    if ($countFirstimport == 0) { // als we alle bingo vellen hebben gehad kunnen we stoppen.
         break;
     }
 }
+echo $product; // het antwoord
