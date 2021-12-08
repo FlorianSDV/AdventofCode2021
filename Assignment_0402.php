@@ -28,31 +28,37 @@ foreach ($drawnNumbers as $comparisonNumber) {
                 if ($firstImport[$i][$g][$j] == $comparisonNumber) {
                     $firstImport[$i][$g][$j] = "";
                 }
-                if (array_sum($firstImport[$i][$g]) == 0){
-//                    echo "gevonden!";
-//                    writeTable($firstImport[$i]);
-                    $product = array_sum($firstImport[$i][0]) +
+                if (array_sum($firstImport[$i][$g]) == 0) {
+                    if (count($firstImport) > 1) {
+                        ($firstImport[$i]; // geen unset maar waarde toekennen.  nieuwe if bedenken. misschien tellertje vergelijken met array count?
+                    } else {
+                    echo count($firstImport) . '<br>';
+
+                        $product = array_sum($firstImport[$i][0]) +
                         array_sum($firstImport[$i][1]) +
                         array_sum($firstImport[$i][2]) +
                         array_sum($firstImport[$i][3]) +
                         array_sum($firstImport[$i][4]);
-//                    echo $comparisonNumber . '<br>';
                     $product = $product * $comparisonNumber;
                     echo $product . '<br>';
                     $stopRunning = True;
                 }
+                }
                 if ($firstImport[$i][0][$j] == "" && $firstImport[$i][1][$j] == "" && $firstImport[$i][2][$j] == "" && $firstImport[$i][3][$j] == "" && $firstImport[$i][4][$j] == "") {
-//                    echo "gevonden!";
-//                    writeTable($firstImport[$i]);
-                    $product = array_sum($firstImport[$i][0]) +
-                        array_sum($firstImport[$i][1]) +
-                        array_sum($firstImport[$i][2]) +
-                        array_sum($firstImport[$i][3]) +
-                        array_sum($firstImport[$i][4]);
-//                    echo $comparisonNumber . '<br>';
-                    $product = $product * $comparisonNumber;
-                    echo $product . '<br>';
-                    $stopRunning = True;
+                    if (count($firstImport) > 1) {
+                        unset($firstImport[$i]);
+                    } else {
+                        echo count($firstImport) . '<br>';
+
+                        $product = array_sum($firstImport[$i][0]) +
+                            array_sum($firstImport[$i][1]) +
+                            array_sum($firstImport[$i][2]) +
+                            array_sum($firstImport[$i][3]) +
+                            array_sum($firstImport[$i][4]);
+                        $product = $product * $comparisonNumber;
+                        echo $product . '<br>';
+                        $stopRunning = True;
+                    }
                 }
 
                 if ($stopRunning == true) {
