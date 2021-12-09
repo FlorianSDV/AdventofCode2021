@@ -1,35 +1,27 @@
 <?php
-function writeTable($array)
+function writeTable($array) // method om arrays te weergeven
 {
-
     echo '<pre>';
     print_r($array);
     echo '</pre>';
-
 }
 
-function intersect($one, $two)
+function intersect($one, $two) // method om te vergelijken hoeveel karakters in twee strings overlappen.
 {
     return count(array_intersect(str_split($one), str_split($two)));
 }
+
 $outputDisplay = explode(PHP_EOL, file_get_contents("Assignment_0801_input"));
 for ($i = 0; $i < count($outputDisplay); $i++) {
     $outputDisplay[$i] = explode(" ", $outputDisplay[$i]);
 }
-//writeTable($outputDisplay);
-
 $allNumbers = explode(PHP_EOL, file_get_contents('Assignment_0802_input'));
 for ($i = 0; $i < count($allNumbers); $i++) {
     $allNumbers[$i] = explode(" ", $allNumbers[$i]);
 }
-//writeTable($allNumbers);
 
-//$array1 = array("a" => "green", "red", "blue");
-//$array2 = array("b" => "green", "yellow", "red");
-//$result = array_intersect($array1, $array2);
-//print_r($result);
-//print_r(count($result));
-
+$sumDisplays = null;
+$vertical = 0;
 $twoThreeFive = [];
 $sixNineZero = []; // nice.
 foreach ($allNumbers as $line) { // ga door elke regel
@@ -75,7 +67,7 @@ foreach ($allNumbers as $line) { // ga door elke regel
         }
 
     }
-    for ($i = 0; $i < count($twoThreeFive); $i++){
+    for ($i = 0; $i < count($twoThreeFive); $i++) {
         $twoThreeFiveOverlap = intersect($twoThreeFive[$i], $one);
         switch ($twoThreeFiveOverlap) {
             case '2':
@@ -87,13 +79,10 @@ foreach ($allNumbers as $line) { // ga door elke regel
                 break;
         }
     }
-//    writeTable($twoThreeFive) . '<br>';
-//    writeTable($sixNineZero) . '<br>';
 
     // op zoek naar 2 en 5
-
     $intersectTwoAndFive = intersect($twoThreeFive[0], $four);
-    switch ($intersectTwoAndFive){
+    switch ($intersectTwoAndFive) {
         case '2':
             $two = $twoThreeFive[0];
             $five = $twoThreeFive[1];
@@ -103,9 +92,8 @@ foreach ($allNumbers as $line) { // ga door elke regel
             $five = $twoThreeFive[0];
             break;
     }
-
     $intersectNineAndZero = intersect($sixNineZero[0], $four);
-    switch ($intersectNineAndZero){
+    switch ($intersectNineAndZero) {
         case '3':
             $zero = $sixNineZero[0];
             $nine = $sixNineZero [1];
@@ -115,31 +103,49 @@ foreach ($allNumbers as $line) { // ga door elke regel
             $nine = $sixNineZero[0];
             break;
     }
-
-//    $keepRunning = true;
-//    for ($i = 0; $i < count($twoThreeFive); $i++) {
-//        if ($keepRunning) {
-//            $maybeThree = intersect($twoThreeFive[$i], $one);
-//            switch ($maybeThree) {
-//                case '2':
-//                    $three = $twoThreeFive[$i];
-//                    unset($twoThreeFive[$i]);
-//                    $keepRunning = false;
-//                    break;
-//                default;
-//                    break;
-//            }
-//        }
-//    }
+    $concatenatedNumber = null;
+    for ($horizontal = 0; $horizontal < 4; $horizontal++) {
+        switch (strlen($outputDisplay[$vertical][$horizontal])) {
+            case '2': // 1
+                $concatenatedNumber .= 1;
+                break;
+            case '3': // 7
+                $concatenatedNumber .= 7;
+                break;
+            case '4': // 4
+                $concatenatedNumber .= 4;
+                break;
+            case '7': // 8
+                $concatenatedNumber .= 8;
+                break;
+            case '6':
+                if (intersect($outputDisplay[$vertical][$horizontal], $six) == 6) {
+                    $concatenatedNumber .= 6;
+                }
+                if (intersect($outputDisplay[$vertical][$horizontal], $nine) == 6) {
+                    $concatenatedNumber .= 9;
+                }
+                if (intersect($outputDisplay[$vertical][$horizontal], $zero) == 6) {
+                    $concatenatedNumber .= 0;
+                }
+                break;
+            case '5':
+                if (intersect($outputDisplay[$vertical][$horizontal], $two) == 5) {
+                    $concatenatedNumber .= 2;
+                }
+                if (intersect($outputDisplay[$vertical][$horizontal], $three) == 5) {
+                    $concatenatedNumber .= 3;
+                }
+                if (intersect($outputDisplay[$vertical][$horizontal], $five) == 5) {
+                    $concatenatedNumber .= 5;
+                }
+                break;
+            default:
+                echo "het werkt niet." . '<br>';
+                break;
+        }
+    }
+    $sumDisplays += $concatenatedNumber;
+    $vertical++;
 }
-
-echo $one . '<br>';
-echo $seven . '<br>';
-echo $four . '<br>';
-echo $eight . '<br>';
-echo $six . '<br>';
-echo $three . '<br>';
-echo $two . '<br>';
-echo $five . '<br>';
-echo $zero . '<br>';
-echo $nine . '<br>';
+echo $sumDisplays;
