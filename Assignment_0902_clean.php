@@ -11,13 +11,13 @@ function search($x, $y) // recursieve functie die alle punten in een pool telt.
         $tellertje++;
         $array[(int)$y][(int)$x] = "x"; // huidige plek naar 'x' veranderen zodat we weten dat we er geweest zijn
         // check boven
-            search((int)$x, (int)$y - 1);
+        search((int)$x, (int)$y - 1);
         // check rechts
-            search((int)$x + 1, (int)$y);
+        search((int)$x + 1, (int)$y);
         // check onder
-            search((int)$x, (int)$y + 1);
+        search((int)$x, (int)$y + 1);
         // check links
-            search((int)$x - 1, (int)$y);
+        search((int)$x - 1, (int)$y);
     }
 }
 
