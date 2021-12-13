@@ -1,12 +1,4 @@
 <?php
-
-function writeTable($array) // method om arrays te weergeven
-{
-    echo '<pre>';
-    print_r($array);
-    echo '</pre>';
-}
-
 $grid = [];
 $arrayKeyDiagonal = [];
 $arrayKeyHorizVert = [];
@@ -27,15 +19,10 @@ for ($i = 0; $i < count($importarray); $i++) {
             $importarray[$i][1] = $importarray[$i][3];
             $importarray[$i][2] = $tempx;
             $importarray[$i][3] = $tempy;
-
-
         }
         $arrayKeyHorizVert[count($arrayKeyHorizVert)] = $i; // get horizontal and vertical keys
     }
-    ///////////////////////////////////////////
-    ///  iets bedenken voor lijnen die van rechtsonder naar linksboven gaan
-    /// ///////////////////////////////
-    else { // diagonal
+     else { // diagonal
         if ($importarray[$i][0] > $importarray[$i][2]) {
             $tempx = $importarray[$i][0];
             $tempy = $importarray[$i][1];
@@ -44,7 +31,6 @@ for ($i = 0; $i < count($importarray); $i++) {
             $importarray[$i][2] = $tempx;
             $importarray[$i][3] = $tempy;
         }
-
         $arrayKeyDiagonal[count($arrayKeyDiagonal)] = $i; // get diagonal keys
     }
 }
@@ -61,17 +47,14 @@ foreach ($arrayKeyHorizVert as $key) {
 }
 $diagonalArray = array_values($diagonalArray); // reindex array
 
-//writeTable($diagonalArray);
-//writeTable($horizVertArray);
-
 foreach ($horizVertArray as $line) { // place all horizontal and vertical lines
-    if ($line[0] != $line[2]) { // vertical
+    if ($line[0] != $line[2]) { // horizontal
         for ($i = $line[0]; $i <= $line[2]; $i++) {
-            $grid[$i][$line[1]]++;
+            $grid[$line[1]][$i]++;
         }
-    } else { // line[1] != $line[3], horizontal
+    } else { // line[1] != $line[3], vertical
         for ($i = $line[1]; $i <= $line[3]; $i++) {
-            $grid[$line[0]][$i]++;
+            $grid[$i][$line[0]]++;
         }
     }
 }
@@ -80,20 +63,16 @@ foreach ($diagonalArray as $line) {
     $yCounter = 0;
     $y = 0;
     if ($line[1] < $line[3]) { // if line goes from top left to bottom right
-        for ($i = $line[0]; $i < $line[2]; $i++) { // here we get our x coordinate
+        for ($i = $line[0]; $i <= $line[2]; $i++) { // here we get our x coordinate
             $y = $line[1] + $yCounter;
-            $grid[$i][$y]++;
-//            echo $i . '<br>';
-//            echo $y . '<br>';
+            $grid[$y][$i]++;
             $yCounter++;
         }
     }
     else { // if line goes from bottom left to top right
-        for ($i = $line[0]; $i < $line[2]; $i++) { // here we get our x coordinate
+        for ($i = $line[0]; $i <= $line[2]; $i++) { // here we get our x coordinate
             $y = $line[1] - $yCounter;
-            $grid[$i][$y]++;
-//            echo $i . '<br>';
-//            echo $y . '<br>';
+            $grid[$y][$i]++;
             $yCounter++;
         }
     }
@@ -108,5 +87,3 @@ foreach ($grid as $line) {
     }
 }
 echo $counter . '<br>';
-print_r($grid);
-//writeTable($grid);
