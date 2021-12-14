@@ -26,10 +26,12 @@ for ($i = 0; $i < count($grid); $i++) {
     $fuelCost = 0;
     for ($j = 0; $j < count($grid); $j++) {
         $steps = abs($j - $i);
+        $steps = ($steps * $steps + $steps) / 2; // nth triangle number formula
         $fuelCost += $steps * $grid[$j];
     }
     $fuelCosts[$i] = $fuelCost;
 }
+echo $steps . '<br>';
 sort($fuelCosts);
 
 echo $fuelCosts[0];
