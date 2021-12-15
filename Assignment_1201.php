@@ -23,10 +23,10 @@ function walk($currentPos)
             walk($step);
         }
     }
-    else if($doubles[$currentPos]) && $doubles[$currentPos] == 1) {
-
+    else if(isset($doubles[$currentPos]) && $doubles[$currentPos] == 1) {
+        $doubles = array_map('tozero', $doubles);
     }
-    else if ($nodes[$currentPos] == "end") {
+else if ($nodes[$currentPos] == "end") {
         $routes++;
         $doubles = array_map('tozero', $doubles);
     } else {

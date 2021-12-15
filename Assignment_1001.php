@@ -56,10 +56,5 @@ for ($i = 0; $i < count($input); $i++) {
             break;
         }
     }
-//    echo $points . '<br>';
-//    echo $input[$i][$j] . '<br>';
-//    echo $j . '<br>';
-//    echo substr($concatenatedWord, -1, 1) . '<br>';
-//    echo '<br>';
 }
 echo $points . '<br>';
